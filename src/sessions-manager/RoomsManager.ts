@@ -11,6 +11,17 @@ const generateRoomId = () => {
     return randomNumberId.toFixed(INTEGER_DIGITS);
 }
 
+export interface RoomData {
+    id: string,
+    name: string,
+    participants: ParticipantData[]
+}
+
+export interface ParticipantData {
+    name: string,
+    stream: Writable
+}
+
 export const createNewRoom = (roomName: string) => {
     const roomId = generateRoomId();
     const roomData = {
@@ -22,13 +33,6 @@ export const createNewRoom = (roomName: string) => {
     return roomId;
 }
 
-export interface RoomData {
-    id: string,
-    name: string,
-    participants: ParticipantData[]
-}
-
-export interface ParticipantData {
-    name: string,
-    stream: Writable
+export const isRoomAvailable = (roomId: string) => {
+    return activeSessions.has(roomId);
 }
