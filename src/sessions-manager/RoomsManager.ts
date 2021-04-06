@@ -1,10 +1,15 @@
 import {Writable} from "stream";
+import {adjectives, animals, Config, uniqueNamesGenerator} from "unique-names-generator";
 
 const ROOM_CODE_LENGTH = 6;
 const ROOM_CODE_MULTIPLIER = Math.pow(10, ROOM_CODE_LENGTH);
 const INTEGER_DIGITS = 0;
 
-const activeSessions = new Map<string, RoomData>();
+const roomsSessions = new Map<string, RoomData>();
+const usersSessions = new Map<string, string>();
+const nameGeneratorConfig: Config = {
+    dictionaries: [adjectives, animals]
+};
 
 const generateRoomId = () => {
     const randomNumberId = Math.random() * ROOM_CODE_MULTIPLIER;
@@ -18,8 +23,9 @@ export interface RoomData {
 }
 
 export interface ParticipantData {
+    id: string,
     name: string,
-    stream: Writable
+    stream?: Writable
 }
 
 export const createNewRoom = (roomName: string) => {
@@ -29,10 +35,25 @@ export const createNewRoom = (roomName: string) => {
         name: roomName,
         participants: []
     }
-    activeSessions.set(roomId, roomData);
+    roomsSessions.set(roomId, roomData);
     return roomId;
 }
 
 export const isRoomAvailable = (roomId: string) => {
-    return activeSessions.has(roomId);
+    return roomsSessions.has(roomId);
+}
+
+export const isParticipantInRoom = (roomId: string, userId: string) => {
+    return usersSessions.get(userId) === roomId;
+}
+
+export const addUser = (roomId: string, userId: string) => {
+    const canAddUser = isRoomAvailable(roomId) && !isParticipantInRoom(roomId, userId);
+    if (canAddUser) {
+        roomsSessions.get(roomId)?.participants.push({
+            id: userId,
+            name: uniqueNamesGenerator(nameGeneratorConfig)
+        })
+        usersSessions.set(userId, roomId)
+    }
 }
