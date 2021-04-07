@@ -1,4 +1,4 @@
-import {addUser, createNewRoom, isParticipantInRoom, isRoomAvailable} from "./RoomsManager";
+import {addUser, createNewRoom, isParticipantInARoom, isRoomAvailable} from "./RoomsManager";
 import {uniqueNamesGenerator} from "unique-names-generator";
 
 jest.mock("unique-names-generator", () => ({
@@ -24,26 +24,29 @@ describe("RoomsManager tests", () => {
         expect(isRoomAvailable(roomId)).toBeTruthy();
     });
 
-    it("Participant already in room", () => {
+    it("Participant already in a room", () => {
         const roomId = createNewRoom('participantInRoom');
-        expect(isParticipantInRoom(roomId, "123")).not.toBeTruthy();
-        addUser(roomId, "123")
-        expect(isParticipantInRoom(roomId, "123")).toBeTruthy();
+        const userId = "123";
+        expect(isParticipantInARoom(userId)).not.toBeTruthy();
+        addUser(roomId, userId)
+        expect(isParticipantInARoom(userId)).toBeTruthy();
     });
 
-    it("User doesn't partecipate to not existing room", () => {
-        expect(isParticipantInRoom("fakeRoomId", "123")).not.toBeTruthy()
+    it("User doesn't partecipate to a room", () => {
+        expect(isParticipantInARoom("456")).not.toBeTruthy()
     });
 
     it("User isn't added to not existing room", () => {
-        addUser("123", "456");
-        expect(isParticipantInRoom("123", "456")).not.toBeTruthy();
+        const userId = "456";
+        addUser("123", userId);
+        expect(isParticipantInARoom(userId)).not.toBeTruthy();
     });
 
     it("User isn't added if already present", () => {
         const roomId = createNewRoom("USER_ADDED");
-        addUser(roomId, "1234");
-        addUser(roomId, "1234");
+        const userId = "1234";
+        addUser(roomId, userId);
+        addUser(roomId, userId);
         expect(uniqueNamesGenerator).toHaveBeenCalledTimes(1);
     })
 });

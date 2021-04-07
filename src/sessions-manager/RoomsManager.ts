@@ -2,7 +2,8 @@ import {Writable} from "stream";
 import {adjectives, animals, Config, uniqueNamesGenerator} from "unique-names-generator";
 
 const ROOM_CODE_LENGTH = 6;
-const ROOM_CODE_MULTIPLIER = Math.pow(10, ROOM_CODE_LENGTH);
+const ROOM_CODE_MAX_VALUE = Math.pow(10, ROOM_CODE_LENGTH);
+const ROOM_CODE_MIN_VALUE = Math.pow(10, ROOM_CODE_LENGTH - 1);
 const INTEGER_DIGITS = 0;
 
 const roomsSessions = new Map<string, RoomData>();
@@ -12,7 +13,7 @@ const nameGeneratorConfig: Config = {
 };
 
 const generateRoomId = () => {
-    const randomNumberId = Math.random() * ROOM_CODE_MULTIPLIER;
+    const randomNumberId = Math.random() * (ROOM_CODE_MAX_VALUE - ROOM_CODE_MIN_VALUE) + ROOM_CODE_MIN_VALUE;
     return randomNumberId.toFixed(INTEGER_DIGITS);
 }
 
@@ -43,12 +44,12 @@ export const isRoomAvailable = (roomId: string) => {
     return roomsSessions.has(roomId);
 }
 
-export const isParticipantInRoom = (roomId: string, userId: string) => {
-    return usersSessions.get(userId) === roomId;
+export const isParticipantInARoom = (userId: string) => {
+    return usersSessions.has(userId);
 }
 
 export const addUser = (roomId: string, userId: string) => {
-    const canAddUser = isRoomAvailable(roomId) && !isParticipantInRoom(roomId, userId);
+    const canAddUser = isRoomAvailable(roomId) && !isParticipantInARoom(userId);
     if (canAddUser) {
         roomsSessions.get(roomId)?.participants.push({
             id: userId,
