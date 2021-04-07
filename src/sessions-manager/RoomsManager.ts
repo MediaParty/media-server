@@ -51,7 +51,7 @@ export const isParticipantInARoom = (userId: string) => {
 export const addUser = (roomId: string, userId: string) => {
     const canAddUser = isRoomAvailable(roomId) && !isParticipantInARoom(userId);
     if (canAddUser) {
-        roomsSessions.get(roomId)?.participants.push({
+        retrieveRoomParticipants(roomId).push({
             id: userId,
             name: uniqueNamesGenerator(nameGeneratorConfig)
         })
@@ -59,3 +59,16 @@ export const addUser = (roomId: string, userId: string) => {
     }
     return canAddUser;
 }
+
+export const removeUser = (roomId: string, userId: string) => {
+    let userRemoved = false;
+    if (isRoomAvailable(roomId)) {
+        const participants = retrieveRoomParticipants(roomId);
+        const participantIndex = participants.findIndex(participant => participant.id === userId);
+        userRemoved = participantIndex !== -1;
+        userRemoved && participants.splice(participantIndex, 1);
+    }
+    return userRemoved;
+}
+
+export const retrieveRoomParticipants = (roomId: string) => roomsSessions.get(roomId)?.participants || [];
