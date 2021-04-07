@@ -57,4 +57,5 @@ export const addUser = (roomId: string, userId: string) => {
         })
         usersSessions.set(userId, roomId)
     }
+    return canAddUser;
 }
