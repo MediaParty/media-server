@@ -36,6 +36,10 @@ export const createNewRoom = (roomName: string) => {
     return roomId;
 }
 
+export const destroyRoom = (roomId: string) => {
+    return roomsSessions.delete(roomId);
+}
+
 export const isRoomAvailable = (roomId: string) => {
     return roomsSessions.has(roomId);
 }

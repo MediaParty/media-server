@@ -1,6 +1,7 @@
 import {
     addParticipant,
     createNewRoom,
+    destroyRoom,
     isRoomAvailable,
     removeParticipant,
     retrieveRoomParticipants
@@ -88,5 +89,16 @@ describe("RoomsManager tests", () => {
 
     it("Retrieve empty participants list", () => {
         expect(retrieveRoomParticipants("RETRIEVE_EMTPY_LIST")).toStrictEqual([]);
+    });
+
+    it("Destroy not existing room", () => {
+        expect(destroyRoom("DEST_NOT_EXT_ROOM")).not.toBeTruthy();
+    });
+
+    it("Correctly destroy a room", () => {
+        const roomId = createNewRoom("DESTROY_CREATED_ROOM");
+        expect(isRoomAvailable(roomId)).toBeTruthy();
+        expect(destroyRoom(roomId)).toBeTruthy();
+        expect(isRoomAvailable(roomId)).not.toBeTruthy();
     });
 });
