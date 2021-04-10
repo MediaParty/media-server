@@ -26,16 +26,36 @@ describe("Disconnection handler tests", () => {
         clientSocket.disconnect();
     });
 
-    it("Disconnection correctly delete participant", (done) => {
-        const roomId = createNewRoom("DISCORRDEL");
+    it("Disconnection correctly delete participant and room", (done) => {
+        const roomId = createNewRoom("DISCORRDELROM");
         const participantId = clientSocket.id;
         addParticipant(roomId, participantId);
         expect(isRoomAvailable(roomId)).toBeTruthy();
         expect(isParticipantInARoom(participantId)).toBeTruthy();
         clientSocket.on("disconnect", () => {
             setTimeout(() => {
+                expect(isRoomAvailable(roomId)).not.toBeTruthy();
+                expect(isParticipantInARoom(participantId)).not.toBeTruthy();
+                done();
+            }, 1000);
+        })
+        clientSocket.disconnect();
+    });
+
+    it("Disconnection correctly delete participant only", (done) => {
+        const roomId = createNewRoom("DISCORRDELONLY");
+        const participantId = clientSocket.id;
+        const participantId2 = "FAKE_PARTICIPANT";
+        addParticipant(roomId, participantId);
+        addParticipant(roomId, participantId2);
+        expect(isRoomAvailable(roomId)).toBeTruthy();
+        expect(isParticipantInARoom(participantId)).toBeTruthy();
+        expect(isParticipantInARoom(participantId2)).toBeTruthy();
+        clientSocket.on("disconnect", () => {
+            setTimeout(() => {
                 expect(isRoomAvailable(roomId)).toBeTruthy();
                 expect(isParticipantInARoom(participantId)).not.toBeTruthy();
+                expect(isParticipantInARoom(participantId2)).toBeTruthy();
                 done();
             }, 1000);
         })
