@@ -37,6 +37,7 @@
     "fluent-ffmpeg": "^2.1.2",
     "socket.io": "^4.0.1",
     "socket.io-client": "^4.0.1",
-    "unique-names-generator": "^4.4.0"
+    "unique-names-generator": "^4.4.0",
+    "winston": "^3.3.3"
   }
 }
