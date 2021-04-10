@@ -1,13 +1,13 @@
 import {
-    addUser,
+    addParticipant,
     createNewRoom,
-    isParticipantInARoom,
     isRoomAvailable,
-    removeUser,
+    removeParticipant,
     retrieveRoomParticipants
-} from "./RoomsManager";
+} from "../RoomsManager";
 import {uniqueNamesGenerator} from "unique-names-generator";
 import {expect} from "@jest/globals";
+import {isParticipantInARoom} from "../ParticipantManager";
 
 jest.mock("unique-names-generator", () => ({
     uniqueNamesGenerator: jest.fn(() => "mockedName")
@@ -34,10 +34,10 @@ describe("RoomsManager tests", () => {
 
     it("Participant already in a room", () => {
         const roomId = createNewRoom('participantInRoom');
-        const userId = "PIN1";
-        expect(isParticipantInARoom(userId)).not.toBeTruthy();
-        expect(addUser(roomId, userId)).toBeTruthy();
-        expect(isParticipantInARoom(userId)).toBeTruthy();
+        const participantId = "PIN1";
+        expect(isParticipantInARoom(participantId)).not.toBeTruthy();
+        expect(addParticipant(roomId, participantId)).toBeTruthy();
+        expect(isParticipantInARoom(participantId)).toBeTruthy();
     });
 
     it("User doesn't partecipate to a room", () => {
@@ -45,46 +45,46 @@ describe("RoomsManager tests", () => {
     });
 
     it("User isn't added to not existing room", () => {
-        const userId = "NER1";
-        expect(addUser("123", userId)).not.toBeTruthy();
-        expect(isParticipantInARoom(userId)).not.toBeTruthy();
+        const participantId = "NER1";
+        expect(addParticipant("123", participantId)).not.toBeTruthy();
+        expect(isParticipantInARoom(participantId)).not.toBeTruthy();
     });
 
     it("User isn't added if already present", () => {
         const roomId = createNewRoom("USER_ADDED");
-        const userId = "NTAP1";
-        expect(addUser(roomId, userId)).toBeTruthy();
-        expect(addUser(roomId, userId)).not.toBeTruthy();
+        const participantId = "NTAP1";
+        expect(addParticipant(roomId, participantId)).toBeTruthy();
+        expect(addParticipant(roomId, participantId)).not.toBeTruthy();
         expect(uniqueNamesGenerator).toHaveBeenCalledTimes(1);
     });
 
     it("Doesn't remove from not existing room", () => {
-        expect(removeUser("RNE1", "UNE1")).not.toBeTruthy();
+        expect(removeParticipant("RNE1", "UNE1")).not.toBeTruthy();
     });
 
     it("Doesn't remove if isn't in room", () => {
         const roomId = createNewRoom("DNRIR");
-        expect(removeUser(roomId, "DNRIR1")).not.toBeTruthy();
+        expect(removeParticipant(roomId, "DNRIR1")).not.toBeTruthy();
     })
 
     it("Remove correctly user", () => {
         const roomId = createNewRoom("USER_REMOVED_OK");
-        const userId1 = "URO1";
-        const userId2 = "URO2";
-        expect(addUser(roomId, userId1)).toBeTruthy();
-        expect(addUser(roomId, userId2)).toBeTruthy();
-        expect(isParticipantInARoom(userId1)).toBeTruthy();
-        expect(isParticipantInARoom(userId2)).toBeTruthy();
-        expect(removeUser(roomId, userId1)).toBeTruthy();
-        expect(isParticipantInARoom(userId2)).toBeTruthy();
+        const participantId1 = "URO1";
+        const participantId2 = "URO2";
+        expect(addParticipant(roomId, participantId1)).toBeTruthy();
+        expect(addParticipant(roomId, participantId2)).toBeTruthy();
+        expect(isParticipantInARoom(participantId1)).toBeTruthy();
+        expect(isParticipantInARoom(participantId2)).toBeTruthy();
+        expect(removeParticipant(roomId, participantId1)).toBeTruthy();
+        expect(isParticipantInARoom(participantId2)).toBeTruthy();
     });
 
     it("Retrieve participants", () => {
         const roomId = createNewRoom("PARTICIPANTS");
-        const userId = "PARTICIPANT_1";
-        expect(addUser(roomId, userId)).toBeTruthy();
-        expect(isParticipantInARoom(userId)).toBeTruthy();
-        expect(retrieveRoomParticipants(roomId)[0]?.id).toBe(userId);
+        const participantId = "PARTICIPANT_1";
+        expect(addParticipant(roomId, participantId)).toBeTruthy();
+        expect(isParticipantInARoom(participantId)).toBeTruthy();
+        expect(retrieveRoomParticipants(roomId)[0]?.id).toBe(participantId);
     });
 
     it("Retrieve empty participants list", () => {
