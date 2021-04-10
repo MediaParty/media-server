@@ -59,12 +59,11 @@ describe("RoomsManager tests", () => {
     });
 
     it("Doesn't remove from not existing room", () => {
-        expect(removeParticipant("RNE1", "UNE1")).not.toBeTruthy();
+        expect(removeParticipant("UNE1")).not.toBeTruthy();
     });
 
     it("Doesn't remove if isn't in room", () => {
-        const roomId = createNewRoom("DNRIR");
-        expect(removeParticipant(roomId, "DNRIR1")).not.toBeTruthy();
+        expect(removeParticipant("DNRIR1")).not.toBeTruthy();
     })
 
     it("Remove correctly user", () => {
@@ -75,7 +74,7 @@ describe("RoomsManager tests", () => {
         expect(addParticipant(roomId, participantId2)).toBeTruthy();
         expect(isParticipantInARoom(participantId1)).toBeTruthy();
         expect(isParticipantInARoom(participantId2)).toBeTruthy();
-        expect(removeParticipant(roomId, participantId1)).toBeTruthy();
+        expect(removeParticipant(participantId1)).toBeTruthy();
         expect(isParticipantInARoom(participantId2)).toBeTruthy();
     });
 

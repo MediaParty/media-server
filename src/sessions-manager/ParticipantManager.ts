@@ -33,7 +33,7 @@ export const addParticipantToRoom = (participantId: string, roomId: string) => {
 }
 
 export const removeParticipant = (participantId: string) => {
-    return usersSessions.delete(participantId)
+    return usersSessions.delete(participantId);
 }
 
 const generateParticipantName = () => {

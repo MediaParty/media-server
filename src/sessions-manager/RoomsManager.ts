@@ -3,7 +3,8 @@ import {
     createInitialParticipantData,
     isParticipantInARoom,
     ParticipantData,
-    removeParticipant as removeParticipantManager
+    removeParticipant as removeParticipantManager,
+    retrieveParticipantRoom
 } from "./ParticipantManager";
 
 const ROOM_CODE_LENGTH = 6 as const;
@@ -48,11 +49,12 @@ export const addParticipant = (roomId: string, participantId: string) => {
     return canAddUser;
 }
 
-export const removeParticipant = (roomId: string, participantId: string) => {
+export const removeParticipant = (participantId: string) => {
     let userRemoved = false;
-    if (isRoomAvailable(roomId)) {
+    const roomId = retrieveParticipantRoom(participantId);
+    if (roomId && isRoomAvailable(roomId)) {
         userRemoved = removeParticipantFromRoom(roomId, participantId);
-        userRemoved && removeParticipantManager(participantId);
+        userRemoved = userRemoved && removeParticipantManager(participantId);
     }
     return userRemoved;
 }
