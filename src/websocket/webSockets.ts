@@ -1,6 +1,7 @@
 import {createServer, Server as HttpServer} from "http";
 import {Server, Socket} from "socket.io";
 import {disconnectionHandlerBuilder} from "./handlers/disconnectionHandler";
+import {mediaPartyLogger} from "../logger";
 
 export const startServers = () => {
     const {io, httpServer} = createServers();
@@ -10,7 +11,7 @@ export const startServers = () => {
 }
 
 const createServers = () => {
-    const httpServer = createServer({});
+    const httpServer = createServer();
     const io = new Server(httpServer, {
         path: "/media-party"
     });
@@ -26,5 +27,7 @@ const connectionHandlers = (socket: Socket) => {
 }
 
 const startHttpServer = (httpServer: HttpServer) => {
-    httpServer.listen(process.env["PORT"] || 3000)
+    httpServer.listen(process.env["PORT"] || 3000, () => {
+        mediaPartyLogger.info("Server has been started")
+    })
 }
