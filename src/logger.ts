@@ -5,7 +5,7 @@ export const mediaPartyLogger = winston.createLogger({
     format: winston.format.json(),
     transports: new winston.transports.Console({
         format: winston.format.printf(options => {
-            return `[MediaParty] - ${options.level}: ${options.message}`;
+            return `[MediaParty] - ${new Date().toLocaleString()} - ${options.level}: ${options.message}`;
         }),
     })
 });
