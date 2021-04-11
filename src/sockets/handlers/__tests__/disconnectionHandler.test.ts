@@ -1,19 +1,16 @@
 import Client, {Socket} from "socket.io-client";
-import {Server} from "socket.io";
-import {Server as HttpServer} from "http";
 import {expect} from "@jest/globals";
+import {FastifyInstance} from "fastify";
 
-import {startServers} from "../../webSockets";
 import {addParticipant, createNewRoom, isRoomAvailable} from "../../../sessions-manager/RoomsManager";
 import {isParticipantInARoom} from "../../../sessions-manager/ParticipantManager";
+import {fastifyLauncher} from "../../../main";
 
 describe("Disconnection handler tests", () => {
-    let ioServer: Server, httpServer: HttpServer, clientSocket: Socket;
+    let fastifyInstance: FastifyInstance, clientSocket: Socket;
 
     beforeEach((done) => {
-        const servers = startServers();
-        ioServer = servers.io;
-        httpServer = servers.httpServer;
+        fastifyInstance = fastifyLauncher();
         clientSocket = Client("http://localhost:3000", {
             path: "/media-party"
         });
@@ -21,8 +18,7 @@ describe("Disconnection handler tests", () => {
     });
 
     afterEach(() => {
-        ioServer.close();
-        httpServer.close();
+        fastifyInstance.close();
         clientSocket.disconnect();
     });
 
