@@ -6,7 +6,9 @@
   "scripts": {
     "coverage": "jest src --collectCoverage",
     "test": "jest src",
-    "test:watch": "jest src --watchAll"
+    "test:watch": "jest src --watchAll",
+    "build": "tsc -p tsconfig.json",
+    "start": "npm run build && node dist/main.js"
   },
   "repository": {
     "type": "git",
