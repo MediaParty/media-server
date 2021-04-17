@@ -9,8 +9,11 @@ import {fastifyLauncher} from "../../../main";
 describe("Disconnection handler tests", () => {
     let fastifyInstance: FastifyInstance, clientSocket: Socket;
 
+    beforeAll(async () => {
+        fastifyInstance = await fastifyLauncher();
+    })
+
     beforeEach((done) => {
-        fastifyInstance = fastifyLauncher();
         clientSocket = Client("http://localhost:3000", {
             path: "/media-party"
         });
@@ -18,9 +21,12 @@ describe("Disconnection handler tests", () => {
     });
 
     afterEach(() => {
-        fastifyInstance.close();
         clientSocket.disconnect();
     });
+
+    afterAll(async () => {
+        await fastifyInstance.close();
+    })
 
     it("Disconnection correctly delete participant and room", (done) => {
         const roomId = createNewRoom("DISCORRDELROM");

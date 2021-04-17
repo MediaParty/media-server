@@ -4,18 +4,21 @@ import {IncomingMessage, Server, ServerResponse} from "http";
 import {mediaPartyLogger} from "./logger";
 import {addSocketIoHandlers} from "./sockets/configureHandlers";
 
-export const fastifyLauncher = () => {
-    const fastifyInstance: FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify({logger: true});
+let fastifyInstance: FastifyInstance<Server, IncomingMessage, ServerResponse>
 
-    fastifyInstance.register(fastifySocketIo, {
-        path: "/media-party"
-    });
+export const fastifyLauncher = async () => {
+    if (!fastifyInstance) {
+        fastifyInstance = fastify({logger: true});
 
-    fastifyInstance.listen(process.env["PORT"] || 3000, () => {
-        addSocketIoHandlers(fastifyInstance);
-        mediaPartyLogger.info("Server has been started");
-    });
+        fastifyInstance.register(fastifySocketIo, {
+            path: "/media-party"
+        });
 
+        await fastifyInstance.listen(process.env["PORT"] || 3000, () => {
+            addSocketIoHandlers(fastifyInstance);
+            mediaPartyLogger.info("Server has been started");
+        });
+    }
     return fastifyInstance;
 }
 
