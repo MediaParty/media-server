@@ -6,6 +6,7 @@ import {
     removeParticipant as removeParticipantManager,
     retrieveParticipantRoom
 } from "./ParticipantManager";
+import {FastifyReply} from "fastify";
 
 const ROOM_CODE_LENGTH = 6 as const;
 const ROOM_CODE_MAX_VALUE = Math.pow(10, ROOM_CODE_LENGTH);
@@ -44,11 +45,11 @@ export const isRoomAvailable = (roomId: string) => {
     return roomsSessions.has(roomId);
 }
 
-export const addParticipant = (roomId: string, participantId: string) => {
+export const addParticipant = (roomId: string, participantId: string, fastifyReply: FastifyReply) => {
     const canAddUser = isRoomAvailable(roomId) && !isParticipantInARoom(participantId);
     if (canAddUser) {
         addParticipantToRoom(participantId, roomId);
-        retrieveRoomParticipants(roomId).push(createInitialParticipantData(participantId));
+        retrieveRoomParticipants(roomId).push(createInitialParticipantData(participantId, fastifyReply));
     }
     return canAddUser;
 }
@@ -62,6 +63,7 @@ export const removeParticipant = (participantId: string) => {
     }
     return userRemoved;
 }
+
 
 export const retrieveRoomParticipants = (roomId: string) => roomsSessions.get(roomId)?.participants || [];
 

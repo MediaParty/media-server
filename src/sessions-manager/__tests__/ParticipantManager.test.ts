@@ -1,3 +1,4 @@
+import {FastifyReply} from "fastify";
 import {
     addParticipantToRoom,
     createInitialParticipantData,
@@ -5,9 +6,11 @@ import {
     removeParticipant,
     retrieveParticipantRoom
 } from "../ParticipantManager";
-import {expect} from "@jest/globals";
 
 describe("ParticipantManager tests", () => {
+    // @ts-ignore
+    const fastifyReply: FastifyReply = {};
+
     it("Undefined room for not participant user", () => {
         expect(retrieveParticipantRoom("NOT_EXISTING_PARTICIPANT")).toBeUndefined()
     });
@@ -21,10 +24,10 @@ describe("ParticipantManager tests", () => {
 
     it("Correctly create participant data", () => {
         const participantId = "PARTICIPANT_ID_DATA";
-        const participantData = createInitialParticipantData(participantId);
+        const participantData = createInitialParticipantData(participantId, fastifyReply);
         expect(participantData.id).toBe(participantId);
         expect(participantData.name).not.toBeUndefined();
-        expect(participantData.stream).toBeUndefined();
+        expect(participantData.reply).not.toBeUndefined();
     });
 
     it("Participant is not in a room", () => {

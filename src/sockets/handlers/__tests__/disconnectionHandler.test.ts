@@ -1,6 +1,6 @@
 import Client, {Socket} from "socket.io-client";
 import {expect} from "@jest/globals";
-import {FastifyInstance} from "fastify";
+import {FastifyInstance, FastifyReply} from "fastify";
 
 import {addParticipant, createNewRoom, isRoomAvailable} from "../../../sessions-manager/RoomsManager";
 import {isParticipantInARoom} from "../../../sessions-manager/ParticipantManager";
@@ -8,6 +8,8 @@ import {fastifyLauncher} from "../../../main";
 
 describe("Disconnection handler tests", () => {
     let fastifyInstance: FastifyInstance, clientSocket: Socket;
+    // @ts-ignore
+    const fakeReply: FastifyReply = {};
 
     beforeAll(async () => {
         fastifyInstance = await fastifyLauncher();
@@ -31,7 +33,7 @@ describe("Disconnection handler tests", () => {
     it("Disconnection correctly delete participant and room", (done) => {
         const roomId = createNewRoom("DISCORRDELROM");
         const participantId = clientSocket.id;
-        addParticipant(roomId, participantId);
+        addParticipant(roomId, participantId, fakeReply);
         expect(isRoomAvailable(roomId)).toBeTruthy();
         expect(isParticipantInARoom(participantId)).toBeTruthy();
         clientSocket.on("disconnect", () => {
@@ -48,8 +50,8 @@ describe("Disconnection handler tests", () => {
         const roomId = createNewRoom("DISCORRDELONLY");
         const participantId = clientSocket.id;
         const participantId2 = "FAKE_PARTICIPANT";
-        addParticipant(roomId, participantId);
-        addParticipant(roomId, participantId2);
+        addParticipant(roomId, participantId, fakeReply);
+        addParticipant(roomId, participantId2, fakeReply);
         expect(isRoomAvailable(roomId)).toBeTruthy();
         expect(isParticipantInARoom(participantId)).toBeTruthy();
         expect(isParticipantInARoom(participantId2)).toBeTruthy();

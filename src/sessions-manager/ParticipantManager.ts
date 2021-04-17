@@ -1,5 +1,5 @@
-import {Writable} from "stream";
 import {adjectives, animals, Config, uniqueNamesGenerator} from "unique-names-generator";
+import {FastifyReply} from "fastify";
 
 const usersSessions = new Map<string, string>();
 
@@ -10,14 +10,16 @@ const nameGeneratorConfig: Config = {
 export interface ParticipantData {
     id: string,
     name: string,
-    stream?: Writable
+    reply: FastifyReply
 }
 
-export const createInitialParticipantData: (participantId: string) => ParticipantData = (participantId: string) => {
-    return {
+export const createInitialParticipantData = (participantId: string, fastifyReply: FastifyReply) => {
+    const participantData: ParticipantData = {
         id: participantId,
-        name: generateParticipantName()
+        name: generateParticipantName(),
+        reply: fastifyReply
     }
+    return participantData
 }
 
 export const retrieveParticipantRoom = (participantId: string) => {
