@@ -20,3 +20,6 @@ export const fastifyLauncher = async () => {
     });
     return fastifyInstance;
 }
+
+if (!process.env["TEST"])
+    fastifyLauncher()
