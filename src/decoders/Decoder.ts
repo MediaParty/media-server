@@ -4,5 +4,5 @@ export interface Decoder {
     start: () => boolean,
     stop: () => boolean,
     seek: (seconds: number) => boolean,
-    getStream: () => Stream.Writable
+    getStream: () => Stream.Readable
 }

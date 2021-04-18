@@ -1,6 +1,6 @@
 import {Decoder} from "./Decoder";
 import ffmpeg from "fluent-ffmpeg";
-import {Writable} from "stream";
+import {PassThrough} from "stream";
 
 const BROWSER_SUPPORTED_FORMAT = 'mp4';
 const DECODE_BROWSER_SUPPORT = ['-movflags', '+frag_keyframe+empty_moov+faststart', '-map', '0:0', '-preset', 'ultrafast'];
@@ -14,10 +14,10 @@ export function videoBrowserDecoder(videoPath: string): Decoder {
             .outputOptions(DECODE_BROWSER_SUPPORT)
             .on('error', () => {
             });
-        ffmpegInstance.pipe(writeableStream, {end: false});
+        ffmpegInstance.pipe(passThroughStream, {end: false});
     }
 
-    const writeableStream = new Writable();
+    const passThroughStream = new PassThrough();
     let ffmpegInstance: ffmpeg.FfmpegCommand;
 
     return {
@@ -37,7 +37,7 @@ export function videoBrowserDecoder(videoPath: string): Decoder {
             return canBeStopped;
         },
         getStream: () => {
-            return writeableStream;
+            return passThroughStream;
         }
     }
 }
