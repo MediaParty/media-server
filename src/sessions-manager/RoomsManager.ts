@@ -1,3 +1,7 @@
+import {FastifyReply} from "fastify";
+
+import { Decoder } from "../decoders/Decoder";
+import {videoBrowserDecoder} from "../decoders/VideoBrowserDecoder";
 import {
     addParticipantToRoom,
     createInitialParticipantData,
@@ -6,7 +10,6 @@ import {
     removeParticipant as removeParticipantManager,
     retrieveParticipantRoom
 } from "./ParticipantManager";
-import {FastifyReply} from "fastify";
 
 const ROOM_CODE_LENGTH = 6 as const;
 const ROOM_CODE_MAX_VALUE = Math.pow(10, ROOM_CODE_LENGTH);
@@ -23,15 +26,17 @@ const generateRoomId = () => {
 export interface RoomData {
     id: string,
     name: string,
-    participants: ParticipantData[]
+    participants: ParticipantData[],
+    decoder: Decoder
 }
 
-export const createNewRoom = (roomName: string) => {
+export const createNewRoom = (roomName: string, mediaLink: string) => {
     const roomId = generateRoomId();
     const roomData = {
         id: roomId,
         name: roomName,
-        participants: []
+        participants: [],
+        decoder: videoBrowserDecoder(mediaLink)
     }
     roomsSessions.set(roomId, roomData);
     return roomId;

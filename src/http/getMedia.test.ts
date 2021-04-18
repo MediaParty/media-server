@@ -27,7 +27,7 @@ describe("Get media tests", () => {
     });
 
     it("Correctly add user", (done) => {
-        const roomId = createNewRoom("CORRCRADDUSR");
+        const roomId = createNewRoom("CORRCRADDUSR", "");
         const participantId = 'CORRCRADDUSRPAR';
         fastifyInstance.inject({
             path: `/room/${roomId}/participant/${participantId}`

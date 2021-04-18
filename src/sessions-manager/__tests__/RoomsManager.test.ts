@@ -19,7 +19,7 @@ describe("RoomsManager tests", () => {
     // @ts-ignore
     const fastifyReply: FastifyReply = {};
     it("Create correctly a new room", () => {
-        const roomId = createNewRoom('Test room');
+        const roomId = createNewRoom("Test room", "");
         const roomNumber = parseInt(roomId);
         expect(roomNumber).toBeGreaterThan(99999);
         expect(roomNumber).toBeLessThanOrEqual(999999);
@@ -27,17 +27,17 @@ describe("RoomsManager tests", () => {
     });
 
     it("Room doesn't exists", () => {
-        const roomAvailable = isRoomAvailable('fakeRoomId');
+        const roomAvailable = isRoomAvailable("fakeRoomId");
         expect(roomAvailable).not.toBeTruthy();
     });
 
     it("Room exists after creation", () => {
-        const roomId = createNewRoom('thisRoomNowExists');
+        const roomId = createNewRoom("thisRoomNowExists", "");
         expect(isRoomAvailable(roomId)).toBeTruthy();
     });
 
     it("Participant already in a room", () => {
-        const roomId = createNewRoom('participantInRoom');
+        const roomId = createNewRoom("participantInRoom", "");
         const participantId = "PIN1";
         expect(isParticipantInARoom(participantId)).not.toBeTruthy();
         expect(addParticipant(roomId, participantId, fastifyReply)).toBeTruthy();
@@ -55,7 +55,7 @@ describe("RoomsManager tests", () => {
     });
 
     it("User isn't added if already present", () => {
-        const roomId = createNewRoom("USER_ADDED");
+        const roomId = createNewRoom("USER_ADDED", "");
         const participantId = "NTAP1";
         expect(addParticipant(roomId, participantId, fastifyReply)).toBeTruthy();
         expect(addParticipant(roomId, participantId, fastifyReply)).not.toBeTruthy();
@@ -71,7 +71,7 @@ describe("RoomsManager tests", () => {
     })
 
     it("Remove correctly user", () => {
-        const roomId = createNewRoom("USER_REMOVED_OK");
+        const roomId = createNewRoom("USER_REMOVED_OK", "");
         const participantId1 = "URO1";
         const participantId2 = "URO2";
         expect(addParticipant(roomId, participantId1, fastifyReply)).toBeTruthy();
@@ -83,7 +83,7 @@ describe("RoomsManager tests", () => {
     });
 
     it("Retrieve participants", () => {
-        const roomId = createNewRoom("PARTICIPANTS");
+        const roomId = createNewRoom("PARTICIPANTS", "");
         const participantId = "PARTICIPANT_1";
         expect(addParticipant(roomId, participantId, fastifyReply)).toBeTruthy();
         expect(isParticipantInARoom(participantId)).toBeTruthy();
@@ -99,7 +99,7 @@ describe("RoomsManager tests", () => {
     });
 
     it("Correctly destroy a room", () => {
-        const roomId = createNewRoom("DESTROY_CREATED_ROOM");
+        const roomId = createNewRoom("DESTROY_CREATED_ROOM", "");
         expect(isRoomAvailable(roomId)).toBeTruthy();
         expect(destroyRoom(roomId)).toBeTruthy();
         expect(isRoomAvailable(roomId)).not.toBeTruthy();

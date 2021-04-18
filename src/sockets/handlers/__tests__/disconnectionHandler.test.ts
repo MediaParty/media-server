@@ -31,7 +31,7 @@ describe("Disconnection handler tests", () => {
     })
 
     it("Disconnection correctly delete participant and room", (done) => {
-        const roomId = createNewRoom("DISCORRDELROM");
+        const roomId = createNewRoom("DISCORRDELROM", "");
         const participantId = clientSocket.id;
         addParticipant(roomId, participantId, fakeReply);
         expect(isRoomAvailable(roomId)).toBeTruthy();
@@ -47,7 +47,7 @@ describe("Disconnection handler tests", () => {
     });
 
     it("Disconnection correctly delete participant only", (done) => {
-        const roomId = createNewRoom("DISCORRDELONLY");
+        const roomId = createNewRoom("DISCORRDELONLY", "");
         const participantId = clientSocket.id;
         const participantId2 = "FAKE_PARTICIPANT";
         addParticipant(roomId, participantId, fakeReply);
