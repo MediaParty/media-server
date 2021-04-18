@@ -22,9 +22,9 @@ export function videoBrowserDecoder(videoPath: string): Decoder {
 
     return {
         seek: function (seconds: number) {
-            this.stop()
-            ffmpegBuilder(seconds)
-            return writeableStream;
+            const hasBeenStopped = ffmpegInstance ? this.stop() : true;
+            ffmpegBuilder(seconds);
+            return ffmpegInstance && hasBeenStopped;
         },
         start: function () {
             return this.seek(0);
@@ -35,6 +35,9 @@ export function videoBrowserDecoder(videoPath: string): Decoder {
                 ffmpegInstance.kill(FFMPEG_KILL_SIGNAL);
             }
             return canBeStopped;
+        },
+        getStream: () => {
+            return writeableStream;
         }
     }
 }

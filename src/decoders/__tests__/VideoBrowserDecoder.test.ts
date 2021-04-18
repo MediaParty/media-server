@@ -1,3 +1,5 @@
+import path from "path";
+
 import {Decoder} from "../Decoder";
 import {videoBrowserDecoder} from "../VideoBrowserDecoder";
 
@@ -6,7 +8,7 @@ describe("VideoDecoder tests", () => {
     let decoder: Decoder;
 
     beforeEach(() => {
-        decoder = videoBrowserDecoder('./src/decoders/__tests__/test_jellyfish.mkv');
+        decoder = videoBrowserDecoder(path.join(__dirname, 'test_jellyfish.mkv'));
     });
 
     afterEach(() => {
@@ -14,8 +16,8 @@ describe("VideoDecoder tests", () => {
     });
 
     it("Can start correctly", () => {
-        const startedBrowserDecoder = decoder.start();
-        expect(startedBrowserDecoder.destroyed).not.toBeTruthy();
+        expect(decoder.start()).toBeTruthy();
+        expect(decoder.getStream().destroyed).not.toBeTruthy();
     });
 
     it("Stop fails because missing start", () => {
@@ -23,30 +25,33 @@ describe("VideoDecoder tests", () => {
     });
 
     it("Stop ok after start", () => {
-        const startStream = decoder.start();
+        expect(decoder.start()).toBeTruthy();
         expect(decoder.stop()).toBeTruthy();
-        expect(startStream.destroyed).not.toBeTruthy()
+        expect(decoder.getStream().destroyed).not.toBeTruthy();
     });
 
     it("Stop ok even after seek", () => {
-        const startStream = decoder.start();
-        const seekStream = decoder.seek(1);
+        expect(decoder.start()).toBeTruthy();
+        expect(decoder.seek(1)).toBeTruthy();
         expect(decoder.stop()).toBeTruthy();
-        expect(startStream.destroyed).not.toBeTruthy();
-        expect(seekStream.destroyed).not.toBeTruthy();
+        expect(decoder.getStream().destroyed).not.toBeTruthy();
     });
 
-    it("Seek create a new stream and stop the previous one", () => {
-        const startStream = decoder.start();
-        const seekStream = decoder.seek(1);
+    it("Seek doesn't create a new stream and but use the previous one", () => {
+        expect(decoder.start()).toBeTruthy();
+        const startStream = decoder.getStream();
+        expect(decoder.seek(1)).toBeTruthy();
+        const seekStream = decoder.getStream();
         expect(startStream).toStrictEqual(seekStream);
         expect(startStream.destroyed).not.toBeTruthy();
         expect(seekStream.destroyed).not.toBeTruthy();
     });
 
-    it("A new start stop previous stream", () => {
-        const startStream1 = decoder.start();
-        const startStream2 = decoder.start();
+    it("A new start use the previous stream", () => {
+        decoder.start();
+        const startStream1 = decoder.getStream();
+        decoder.start();
+        const startStream2 = decoder.getStream();
         expect(startStream1).toStrictEqual(startStream2);
         expect(startStream1.destroyed).not.toBeTruthy();
         expect(startStream2.destroyed).not.toBeTruthy();

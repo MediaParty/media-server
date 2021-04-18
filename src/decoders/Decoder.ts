@@ -1,7 +1,8 @@
 import Stream from "stream";
 
 export interface Decoder {
-    start: () => Stream.Writable,
+    start: () => boolean,
     stop: () => boolean,
-    seek: (seconds: number) => Stream.Writable
+    seek: (seconds: number) => boolean,
+    getStream: () => Stream.Writable
 }
