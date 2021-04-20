@@ -70,7 +70,9 @@ export const removeParticipant = (participantId: string) => {
 }
 
 
-export const retrieveRoomParticipants = (roomId: string) => roomsSessions.get(roomId)?.participants || [];
+export const retrieveRoomParticipants = (roomId: string) => retrieveRoomData(roomId)?.participants || [];
+
+export const retrieveRoomData = (roomId: string) => roomsSessions.get(roomId);
 
 const removeParticipantFromRoom = (roomId: string, participantId: string) => {
     const participants = retrieveRoomParticipants(roomId);

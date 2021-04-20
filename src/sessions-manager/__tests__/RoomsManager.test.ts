@@ -4,6 +4,7 @@ import {
     destroyRoom,
     isRoomAvailable,
     removeParticipant,
+    retrieveRoomData,
     retrieveRoomParticipants
 } from "../RoomsManager";
 import {uniqueNamesGenerator} from "unique-names-generator";
@@ -104,4 +105,13 @@ describe("RoomsManager tests", () => {
         expect(destroyRoom(roomId)).toBeTruthy();
         expect(isRoomAvailable(roomId)).not.toBeTruthy();
     });
+
+    it("Return undefined room data", () => {
+        expect(retrieveRoomData("UNDEF_ROOM_DATA")).not.toBeTruthy();
+    });
+
+    it("Return room data for definied room", () => {
+        const roomId = createNewRoom("DEF_ROOM_DATA", "");
+        expect(retrieveRoomData(roomId)).toBeTruthy();
+    })
 });

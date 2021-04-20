@@ -1,5 +1,4 @@
 import Client, {Socket} from "socket.io-client";
-import {expect} from "@jest/globals";
 import {FastifyInstance, FastifyReply} from "fastify";
 
 import {addParticipant, createNewRoom, isRoomAvailable} from "../../../sessions-manager/RoomsManager";
@@ -13,7 +12,7 @@ describe("Disconnection handler tests", () => {
 
     beforeAll(async () => {
         fastifyInstance = await fastifyLauncher();
-    })
+    });
 
     beforeEach((done) => {
         clientSocket = Client("http://localhost:3000", {
@@ -28,7 +27,7 @@ describe("Disconnection handler tests", () => {
 
     afterAll(async () => {
         await fastifyInstance.close();
-    })
+    });
 
     it("Disconnection correctly delete participant and room", (done) => {
         const roomId = createNewRoom("DISCORRDELROM", "");
@@ -76,5 +75,5 @@ describe("Disconnection handler tests", () => {
             }, 1000);
         })
         clientSocket.disconnect();
-    })
+    });
 })

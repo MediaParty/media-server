@@ -8,7 +8,7 @@ export const disconnectionHandlerBuilder = (socket: Socket) => {
     const participantId = socket.id;
     return (disconnectionReason: string) => {
         const roomId = retrieveParticipantRoom(participantId);
-        mediaPartyLogger.info(`Particioant ${participantId} disconnected due to ${disconnectionReason}`);
+        mediaPartyLogger.info(`Particioant ${participantId} - room ${roomId} - disconnected due to ${disconnectionReason}`);
         removeParticipant(participantId);
         manageRoomDestruction(roomId);
     }
