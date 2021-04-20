@@ -4,6 +4,7 @@ import {FastifyInstance} from "fastify";
 import {disconnectionHandlerBuilder} from "./handlers/disconnectionHandler";
 
 export const addSocketIoHandlers = (fastifyInstance: FastifyInstance) => {
+    // @ts-ignore
     fastifyInstance.io.on("connection", connectionHandlers)
 }
 

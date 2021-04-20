@@ -1,6 +1,7 @@
 import fastify, {FastifyInstance} from "fastify";
-import fastifySocketIo from "fastify-socket.io";
 import {IncomingMessage, Server, ServerResponse} from "http";
+import {Server as SocketServer} from "socket.io";
+
 import {mediaPartyLogger} from "./logger";
 import {addSocketIoHandlers} from "./sockets/configureHandlers";
 import {getMedia} from "./http/getMedia";
@@ -8,8 +9,14 @@ import {getMedia} from "./http/getMedia";
 export const fastifyLauncher = async () => {
     const fastifyInstance: FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify({logger: true});
 
-    fastifyInstance.register(fastifySocketIo, {
+    fastifyInstance.decorate('io', new SocketServer(fastifyInstance.server, {
         path: "/media-party"
+    }));
+
+    fastifyInstance.addHook('onClose', (fastifyInstance, done) => {
+        // @ts-ignore
+        fastifyInstance.io.close()
+        done()
     });
 
     fastifyInstance.register(getMedia)
