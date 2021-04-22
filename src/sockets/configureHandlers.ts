@@ -2,7 +2,8 @@ import {Socket} from "socket.io";
 import {FastifyInstance} from "fastify";
 
 import {disconnectionHandlerBuilder} from "./handlers/disconnectionHandler";
-import {seekHandler} from "./handlers/seekHandler";
+import {seekHandlerBuilder} from "./handlers/seekHandler";
+import {createRoomHandlerBuilder} from "./handlers/createRoomHandler";
 
 export const addSocketIoHandlers = (fastifyInstance: FastifyInstance) => {
     // @ts-ignore
@@ -11,5 +12,6 @@ export const addSocketIoHandlers = (fastifyInstance: FastifyInstance) => {
 
 const connectionHandlers = (socket: Socket) => {
     socket.on("disconnect", disconnectionHandlerBuilder(socket));
-    socket.on("seek", seekHandler(socket));
+    socket.on("createRoom", createRoomHandlerBuilder(socket));
+    socket.on("seek", seekHandlerBuilder(socket));
 }

@@ -7,8 +7,8 @@ interface SeekModel {
     seekTime: number
 }
 
-export const seekHandler: (socket: Socket) => (seekModel: SeekModel) => void = (socket: Socket) => {
-    const participantId = socket.id;
+export const seekHandlerBuilder: (socket: Socket) => (seekModel: SeekModel) => void = (socket: Socket) => {
+    const participantId = socket.id as string;
     return ({seekTime}) => {
         const roomId = retrieveParticipantRoom(participantId);
         mediaPartyLogger.info(`Particioant ${participantId} - room ${roomId} - seeked to ${seekTime}`);

@@ -43,6 +43,8 @@ export const createNewRoom = (roomName: string, mediaLink: string) => {
 }
 
 export const destroyRoom = (roomId: string) => {
+    const roomData = roomsSessions.get(roomId)
+    roomData && roomData.decoder.stop()
     return roomsSessions.delete(roomId);
 }
 

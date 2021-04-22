@@ -4,7 +4,6 @@ import {FastifyInstance, FastifyReply} from "fastify";
 import {addParticipant, createNewRoom, retrieveRoomData} from "../../../sessions-manager/RoomsManager";
 import {fastifyLauncher} from "../../../main";
 import {Decoder} from "../../../decoders/Decoder";
-import {expect} from "@jest/globals";
 
 describe("Seek handler tests", () => {
     let fastifyInstance: FastifyInstance, clientSocket: Socket;
