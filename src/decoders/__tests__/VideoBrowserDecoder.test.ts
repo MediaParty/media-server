@@ -1,14 +1,14 @@
 import path from "path";
 
 import {Decoder} from "../Decoder";
-import {videoBrowserDecoder} from "../VideoBrowserDecoder";
+import VideoBrowserDecoder from "../VideoBrowserDecoder";
 
 describe("VideoDecoder tests", () => {
 
     let decoder: Decoder;
 
     beforeEach(() => {
-        decoder = videoBrowserDecoder(path.join(__dirname, 'test_jellyfish.mkv'));
+        decoder = new VideoBrowserDecoder(path.join(__dirname, 'test_jellyfish.mkv'));
     });
 
     afterEach(() => {

@@ -1,7 +1,7 @@
 import {FastifyReply} from "fastify";
 
-import { Decoder } from "../decoders/Decoder";
-import {videoBrowserDecoder} from "../decoders/VideoBrowserDecoder";
+import {Decoder} from "../decoders/Decoder";
+import VideoBrowserDecoder from "../decoders/VideoBrowserDecoder";
 import {
     addParticipantToRoom,
     createInitialParticipantData,
@@ -36,7 +36,7 @@ export const createNewRoom = (roomName: string, mediaLink: string) => {
         id: roomId,
         name: roomName,
         participants: [],
-        decoder: videoBrowserDecoder(mediaLink)
+        decoder: new VideoBrowserDecoder(mediaLink)
     }
     roomsSessions.set(roomId, roomData);
     return roomId;
