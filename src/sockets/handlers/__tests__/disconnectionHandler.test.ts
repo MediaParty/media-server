@@ -10,8 +10,8 @@ describe("Disconnection handler tests", () => {
     // @ts-ignore
     const fakeReply: FastifyReply = {};
 
-    beforeAll(async () => {
-        fastifyInstance = await fastifyLauncher();
+    beforeAll(() => {
+        fastifyInstance = fastifyLauncher();
     });
 
     beforeEach((done) => {

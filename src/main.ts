@@ -6,7 +6,7 @@ import {mediaPartyLogger} from "./logger";
 import {addSocketIoHandlers} from "./sockets/configureHandlers";
 import {getMedia} from "./http/getMedia";
 
-export const fastifyLauncher = async () => {
+export const fastifyLauncher = () => {
     const fastifyInstance: FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify({logger: true});
 
     fastifyInstance.decorate('io', new SocketServer(fastifyInstance.server, {
@@ -21,12 +21,12 @@ export const fastifyLauncher = async () => {
 
     fastifyInstance.register(getMedia)
 
-    await fastifyInstance.listen(process.env["PORT"] || 3000, () => {
+    fastifyInstance.listen(process.env["PORT"] || 3000, () => {
         addSocketIoHandlers(fastifyInstance);
         mediaPartyLogger.info("Server has been started");
     });
     return fastifyInstance;
 }
 
-if (!process.env["TEST"])
+if (process.env["PRODUCTION"])
     fastifyLauncher()

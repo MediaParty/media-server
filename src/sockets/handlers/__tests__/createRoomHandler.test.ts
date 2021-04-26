@@ -6,8 +6,8 @@ import path from "path";
 describe("Create room handler tests", () => {
     let fastifyInstance: FastifyInstance, clientSocket: Socket;
 
-    beforeAll(async () => {
-        fastifyInstance = await fastifyLauncher();
+    beforeAll(() => {
+        fastifyInstance = fastifyLauncher();
     });
 
     beforeEach((done) => {

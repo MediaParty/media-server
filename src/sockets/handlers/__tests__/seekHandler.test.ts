@@ -12,8 +12,8 @@ describe("Seek handler tests", () => {
 
     let testDecoder: Decoder;
 
-    beforeAll(async () => {
-        fastifyInstance = await fastifyLauncher();
+    beforeAll( () => {
+        fastifyInstance = fastifyLauncher();
     });
 
     beforeEach((done) => {

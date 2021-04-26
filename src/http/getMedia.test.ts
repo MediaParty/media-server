@@ -7,8 +7,8 @@ import {createNewRoom} from "../sessions-manager/RoomsManager";
 describe("Get media tests", () => {
     let fastifyInstance: FastifyInstance
 
-    beforeAll(async () => {
-        fastifyInstance = await fastifyLauncher();
+    beforeAll(() => {
+        fastifyInstance = fastifyLauncher();
     });
 
     afterAll(async () => {
