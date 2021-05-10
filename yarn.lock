@@ -3445,9 +3445,9 @@ json-parse-even-better-errors@^2.3.0:
   integrity sha512-xyFwyhro/JEof6Ghe2iz2NcXoj2sloNsWr/XsERDK/oiPCfaNhl5ONfp+jQdAZRQQ0IJWNzH9zIZF7li91kh2w==
 
 json-schema-to-ts@^1.6.1:
-  version "1.6.3"
-  resolved "https://registry.yarnpkg.com/json-schema-to-ts/-/json-schema-to-ts-1.6.3.tgz#a57f0c9095d96314639b8eb53c7b0ad60647390c"
-  integrity sha512-/eFXCaQliumW5HRQatgmTsPYr/THt6mNfbhlMpESafRmwAr8v3nguEg08CS/2Jn0I/ZWgzRKfafdV1FrzCx9IA==
+  version "1.6.4"
+  resolved "https://registry.yarnpkg.com/json-schema-to-ts/-/json-schema-to-ts-1.6.4.tgz#63e4fe854dff093923be9e8b59b39ee9a7971ba4"
+  integrity sha512-pR4yQ9DHz6itqswtHCm26mw45FSNfQ9rEQjosaZErhn5J3J2sIViQiz8rDaezjKAhFGpmsoczYVBgGHzFw/stA==
   dependencies:
     "@types/json-schema" "^7.0.6"
     ts-toolbelt "^6.15.5"
