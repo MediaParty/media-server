@@ -28,7 +28,7 @@
     "@babel/preset-env": "^7.13.12",
     "@babel/preset-typescript": "^7.13.0",
     "@types/fluent-ffmpeg": "^2.1.16",
-    "@types/jest": "^26.0.22",
+    "@types/jest": "^27.0.0",
     "@types/node": "^16.0.0",
     "babel-jest": "^27.0.1",
     "husky": "^7.0.0",
