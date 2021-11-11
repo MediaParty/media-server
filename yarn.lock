@@ -1270,9 +1270,9 @@
   integrity sha512-vt+kDhq/M2ayberEtJcIN/hxXy1Pk+59g2FV/ZQceeaTyCtCucjL2Q7FXlFjtWn4n15KCr1NE2lNNFhp0lEThw==
 
 "@types/fluent-ffmpeg@^2.1.16":
-  version "2.1.19"
-  resolved "https://registry.yarnpkg.com/@types/fluent-ffmpeg/-/fluent-ffmpeg-2.1.19.tgz#564710b3d8d1c8a2be9db9bd9ce6dcd450a73779"
-  integrity sha512-Zn20PcPe0HbsUM7i0qNpGrZWXLCfh9xI4LJ3ovtiao4RDKmmosFmHeyxozpeqLYyZeRkZIHeb5IqrK3bld2Yjw==
+  version "2.1.20"
+  resolved "https://registry.yarnpkg.com/@types/fluent-ffmpeg/-/fluent-ffmpeg-2.1.20.tgz#3b5f42fc8263761d58284fa46ee6759a64ce54ac"
+  integrity sha512-B+OvhCdJ3LgEq2PhvWNOiB/EfwnXLElfMCgc4Z1K5zXgSfo9I6uGKwR/lqmNPFQuebNnes7re3gqkV77SyypLg==
   dependencies:
     "@types/node" "*"
 
